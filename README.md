@@ -1,193 +1,122 @@
 # 📄 RAG PDF Chatbot
 
+# RAG PDF Chatbot
 
-Upload a PDF → Ask questions → Get accurate, context-based answers
-
-*(Add your demo video or screenshots here)*
-
----
-
-## 🖼️ RAG Workflow Diagram
-
-<img width="338" height="462" alt="image" src="https://github.com/user-attachments/assets/1752819b-9916-4dcd-9aa0-1ba5659ce79f" />
-
-
-> This diagram represents the complete flow of the system from user query to final answer using retrieval and generation.
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)]()
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-red.svg)]()
+[![LangChain](https://img.shields.io/badge/LangChain-Framework-green.svg)]()
+[![FAISS](https://img.shields.io/badge/FAISS-VectorDB-orange.svg)]()
+[![Groq](https://img.shields.io/badge/LLM-Groq%20LLaMA%203.1-purple.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)]()
 
 ---
 
-## 🧠 Key Features
+## Overview
 
-* 📂 Upload any PDF dynamically
-* 💬 Ask natural language questions
-* 🔍 Context-aware answers using FAISS
-* 🚫 No hallucination (answers only from document)
-* ⚡ Fast retrieval with cached vector database
-* 🌐 Clean Streamlit UI
-* 🧾 Source-aware responses
+This project implements a Retrieval-Augmented Generation (RAG) system that allows users to upload PDF documents and ask natural language questions. The system retrieves relevant information from the document and generates answers strictly grounded in the provided context.
+
+If the answer is not present in the document, the system explicitly responds with *"I don't know"*, preventing hallucinated outputs.
 
 ---
 
-## 🔄 System Workflow
+## Demo
+
+### Application Interface
+
+<img width="1366" height="597" alt="image" src="https://github.com/user-attachments/assets/4affaa55-0f14-4240-af05-4fb094f36fd8" />
+
+
+### Response Example
+
+<img width="1365" height="594" alt="image" src="https://github.com/user-attachments/assets/75e2dbb2-ed27-4c6c-bd8a-ec583d5dd2de" />
+
+
+The system allows users to:
+
+* Upload a PDF document
+* Ask questions in natural language
+* Receive accurate, context-based answers
+
+---
+
+## Architecture & Workflow
 
 ```text
-User Input
-   ↓
-Streamlit UI
-   ↓
 PDF Upload
-   ↓
-Text Chunking
-   ↓
-Embeddings (MiniLM)
-   ↓
-FAISS Vector Store
-   ↓
-Retriever (MMR)
-   ↓
-Context Building
-   ↓
-LLM (Groq - LLaMA)
-   ↓
+    │
+    ▼
+PyPDFLoader
+    │
+    ▼
+Text Splitter (chunk_size=500, overlap=100)
+    │
+    ▼
+HuggingFace Embeddings (MiniLM)
+    │
+    ▼
+FAISS Vector Store (in-memory)
+    │
+    ▼
+User Query
+    │
+    ▼
+MMR Retriever (k=3, fetch_k=10)
+    │
+    ▼
+Top Relevant Chunks
+    │
+    ▼
+Prompt (strict context-only rules)
+    │
+    ▼
+LLaMA 3.1 (Groq API)
+    │
+    ▼
 Final Answer
 ```
 
 ---
 
-## 🧠 RAG Pipeline Explained
+## Key Design Decisions
 
-### 1. 📄 Document Loading
-
-* PDF is uploaded via Streamlit
-* Processed using `PyPDFLoader`
-
----
-
-### 2. ✂️ Text Chunking
-
-* Documents split into smaller chunks
-* Improves retrieval accuracy
+* Context-restricted prompting to eliminate hallucination
+* MMR retrieval to improve diversity and reduce redundancy
+* In-memory FAISS indexing for simplicity and speed
+* Modular separation between ingestion, retrieval, and generation
 
 ---
 
-### 3. 🔢 Embedding Generation
-
-* Each chunk → vector representation
-* Model used:
-
-```
-sentence-transformers/all-MiniLM-L6-v2
-```
-
----
-
-### 4. 📦 Vector Storage (FAISS)
-
-* Stores embeddings efficiently
-* Enables fast similarity search
-
----
-
-### 5. 🔍 Retrieval (MMR)
-
-* Query converted to embedding
-* Retrieves diverse + relevant chunks
-
----
-
-### 6. 🧾 Context Creation
-
-* Relevant chunks combined into context
-
----
-
-### 7. 🤖 LLM Processing
-
-* Context + Query sent to Groq LLM
-
----
-
-### 8. ✅ Final Answer
-
-* Structured, accurate, context-based response
-
----
-
-## 🏗️ Project Structure
+## Project Structure
 
 ```text
-project/
-│
 ├── app.py              # Streamlit UI
-├── rag_pipeline.py     # Core RAG logic
-├── rag_brain.py        # FAISS + retriever setup
-├── llm_load.py         # LLM configuration
+├── rag_pipeline.py     # Document processing and retrieval setup
+├── rag_brain.py        # Query → prompt → LLM response
+├── llm_load.py         # LLM configuration (Groq)
 ├── requirements.txt
 ├── README.md
-├── .gitignore
 └── assets/
-    └── rag_architecture.png
+    ├── app_screenshot_1.png
+    └── app_screenshot_2.png
 ```
 
 ---
 
-## ⚙️ Tech Stack
-
-* **Frontend:** Streamlit
-* **LLM:** Groq (LLaMA 3.1 / 3.3)
-* **Framework:** LangChain
-* **Vector DB:** FAISS
-* **Embeddings:** Sentence Transformers
-* **Language:** Python
-
----
-
-## 🧪 Example
-
-### ❓ Question
-
-```
-What is machine learning?
-```
-
-### ✅ Output
-
-```
-Machine Learning is a field of AI that enables systems to learn from data, identify patterns, and make decisions with minimal human intervention.
-```
-
----
-
-## ▶️ How to Run Locally
-
-### 1. Clone repository
+## Setup
 
 ```bash
 git clone https://github.com/your-username/rag-pdf-chatbot.git
 cd rag-pdf-chatbot
-```
-
----
-
-### 2. Install dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
----
+Create a `.env` file:
 
-### 3. Setup environment variables
-
-Create `.env` file:
-
-```env
+```text
 GROQ_API_KEY=your_api_key_here
 ```
 
----
-
-### 4. Run the application
+Run the application:
 
 ```bash
 streamlit run app.py
@@ -195,45 +124,21 @@ streamlit run app.py
 
 ---
 
-## 🔐 Security Notes
+## Limitations
 
-* `.env` is excluded (API keys are safe)
-* FAISS index stored locally
-* No external data sharing
-
----
-
-## 📊 Performance Highlights
-
-* ⚡ Fast similarity search with FAISS
-* 🧠 Accurate retrieval-based answers
-* 🔁 Cached retriever for efficiency
+* Vector index is in-memory and rebuilt for each upload
+* Supports a single PDF per session
+* Chat history is not persisted
 
 ---
 
-## 🎯 Future Improvements
+## Summary
 
-* Multi-PDF support
-* Source highlighting
-* Confidence score
-* Cloud deployment
-* Authentication system
+This project demonstrates a practical implementation of a RAG pipeline using vector search and large language models to generate accurate, document-grounded responses. It highlights strong understanding of retrieval systems, prompt design, and real-time AI application development.
 
 ---
 
-## 👨‍💻 Author
+## Author
 
-**Aakash Kumar**
-B.Tech CSE (Data Science)
-Aspiring Data Scientist | ML Engineer
-
----
-
-## ⭐ Support
-
-If you like this project:
-
-👉 Star ⭐ the repository
-👉 Share it with others
-
----
+Aakash Kumar
+B.Tech Computer Science (Data Science)
