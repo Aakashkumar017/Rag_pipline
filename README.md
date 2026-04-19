@@ -1,10 +1,5 @@
 # 📄 RAG PDF Chatbot
 
-A powerful **Retrieval-Augmented Generation (RAG)** based chatbot that allows users to **upload PDFs and ask questions**, with answers strictly grounded in document content.
-
----
-
-## 🚀 Demo
 
 Upload a PDF → Ask questions → Get accurate, context-based answers
 
@@ -14,7 +9,8 @@ Upload a PDF → Ask questions → Get accurate, context-based answers
 
 ## 🖼️ RAG Workflow Diagram
 
-![RAG Workflow](assets/rag_architecture.png)
+<img width="338" height="462" alt="image" src="https://github.com/user-attachments/assets/1752819b-9916-4dcd-9aa0-1ba5659ce79f" />
+
 
 > This diagram represents the complete flow of the system from user query to final answer using retrieval and generation.
 
