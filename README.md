@@ -1,5 +1,3 @@
-# 📄 RAG PDF Chatbot
-
 # RAG PDF Chatbot
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)]()
