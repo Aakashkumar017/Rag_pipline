@@ -42,11 +42,6 @@ The system allows users to:
 
 ---
 
-## 🏗️ Architecture & Workflow
-
-![RAG Architecture](assets/architecture.png)
----
-
 ## Key Design Decisions
 
 * Context-restricted prompting to eliminate hallucination
@@ -59,15 +54,17 @@ The system allows users to:
 ## Project Structure
 
 ```text
-├── app.py              # Streamlit UI
-├── rag_pipeline.py     # Document processing and retrieval setup
-├── rag_brain.py        # Query → prompt → LLM response
-├── llm_load.py         # LLM configuration (Groq)
+├── app.py
+├── rag_pipeline.py
+├── rag_brain.py
+├── llm_load.py
 ├── requirements.txt
 ├── README.md
 └── assets/
+    ├── rag_architecture.png     
     ├── app_screenshot_1.png
     └── app_screenshot_2.png
+    
 ```
 
 ---
