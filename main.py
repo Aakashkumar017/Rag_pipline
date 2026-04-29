@@ -1,14 +1,9 @@
-# model_with_memory.py
-
-from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
-import os
 from llm_load import model
-from rag_pipeline  import build_retriever
+from rag_pipeline import build_retriever
 from rag_brain import rag_pipeline
 
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
-
 
 
 # ==========================
@@ -16,11 +11,9 @@ from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 # ==========================
 load_dotenv()
 
-llm=model()
+llm = model()
 
-
-file_path = r"C:\Users\Amit kumar\Desktop\new_learnig\BOOK\ML_Book_Notes_Part1.pdf"
-
+file_path = r" "
 retriever = build_retriever(file_path)
 
 
@@ -51,11 +44,20 @@ while True:
                 print(f"AI: {msg.content}")
         continue
 
+    # Add user message
     chat_history.append(HumanMessage(content=user_input))
 
-    # ✅ FIXED HERE
-    result = rag_pipeline(user_input, retriever, llm)
+    # ==========================
+    # ✅ PASS HISTORY TO PIPELINE
+    # ==========================
+    result = rag_pipeline(
+        query=user_input,
+        retriever=retriever,
+        llm=llm,
+        chat_history=chat_history   # ✅ FIX
+    )
 
+    # Add AI response
     chat_history.append(AIMessage(content=result))
 
     print("AI:", result)

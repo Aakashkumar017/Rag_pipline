@@ -37,8 +37,9 @@ The system allows users to:
 
 ---
 
-## Architecture & Workflow
+## 🏗️ Architecture & Workflow
 
+![RAG Architecture](assets/architecture.png)
 ```text
 PDF Upload
     │

@@ -7,7 +7,7 @@ load_dotenv()
 def model():
     try:
         llm=ChatOpenAI(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         base_url="https://api.groq.com/openai/v1",
         api_key=os.getenv("GROQ_API_KEY"))
 
