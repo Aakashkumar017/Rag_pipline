@@ -11,9 +11,13 @@
 
 ## Overview
 
-This project implements a Retrieval-Augmented Generation (RAG) system that allows users to upload PDF documents and ask natural language questions. The system retrieves relevant information from the document and generates answers strictly grounded in the provided context.
+## Overview
 
-If the answer is not present in the document, the system explicitly responds with *"I don't know"*, preventing hallucinated outputs.
+This project implements a Retrieval-Augmented Generation (RAG) system that allows users to upload PDF documents and ask natural language questions.
+
+The system retrieves the most relevant document chunks using FAISS-based similarity search and generates answers strictly grounded in the provided context.
+
+If the answer is not present in the document, the system explicitly responds with *"Not found in document"*, preventing hallucinated outputs.
 
 ---
 
@@ -45,8 +49,8 @@ The system allows users to:
 ## Key Design Decisions
 
 * Context-restricted prompting to eliminate hallucination
-* MMR retrieval to improve diversity and reduce redundancy
-* In-memory FAISS indexing for simplicity and speed
+* Similarity-based retrieval to ensure accurate and relevant context selection
+* FAISS vector database for efficient semantic search (supports persistence for faster reuse)
 * Modular separation between ingestion, retrieval, and generation
 
 ---
@@ -93,15 +97,13 @@ streamlit run app.py
 
 ## Limitations
 
-* Vector index is in-memory and rebuilt for each upload
-* Supports a single PDF per session
-* Chat history is not persisted
-
+* FAISS index is currently in-memory and rebuilt on each upload, increasing processing time for large documents  
+* Supports only a single PDF per session (no multi-document retrieval)  
+* Chat history is session-based and not persisted across runs  
 ---
 
 ## Summary
-
-This project demonstrates a practical implementation of a RAG pipeline using vector search and large language models to generate accurate, document-grounded responses. It highlights strong understanding of retrieval systems, prompt design, and real-time AI application development.
+This project presents a practical implementation of a Retrieval-Augmented Generation (RAG) pipeline that combines FAISS-based vector search with large language models to produce accurate, context-grounded responses from PDF documents. It demonstrates a strong understanding of document ingestion, semantic retrieval, prompt engineering, and real-time AI system design.
 
 ---
 
