@@ -17,6 +17,11 @@ If the answer is not present in the document, the system explicitly responds wit
 
 ---
 
+## 🏗️ Architecture & Workflow
+
+![RAG Architecture](assets/architecture.png)
+---
+
 ## Demo
 
 ### Application Interface
@@ -40,40 +45,6 @@ The system allows users to:
 ## 🏗️ Architecture & Workflow
 
 ![RAG Architecture](assets/architecture.png)
-```text
-PDF Upload
-    │
-    ▼
-PyPDFLoader
-    │
-    ▼
-Text Splitter (chunk_size=500, overlap=100)
-    │
-    ▼
-HuggingFace Embeddings (MiniLM)
-    │
-    ▼
-FAISS Vector Store (in-memory)
-    │
-    ▼
-User Query
-    │
-    ▼
-MMR Retriever (k=3, fetch_k=10)
-    │
-    ▼
-Top Relevant Chunks
-    │
-    ▼
-Prompt (strict context-only rules)
-    │
-    ▼
-LLaMA 3.1 (Groq API)
-    │
-    ▼
-Final Answer
-```
-
 ---
 
 ## Key Design Decisions
